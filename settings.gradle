@@ -1,0 +1,2 @@
+rootProject.name='Vermuk Module'
+include ':app'

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:id="@+id/image"/>
+
+    <EditText
+        android:id="@+id/et_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:hint="Masukan String Base64 Vermuk"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/et_string"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_go" />
+
+    <Button
+        android:id="@+id/btn_go"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:hint="Inject Gojek Driver"
+        android:textColorHint="#fff"
+        android:layout_marginTop="5dp"
+
+        app:layout_constraintBottom_toBottomOf="@id/et_string"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_string" />
+
+
+    <Button
+        android:id="@+id/btn_choose"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:hint="Choose from Galery"
+        android:textColorHint="#fff"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/et_string"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_string" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:text="BSH TEAM 2020"/>
+</LinearLayout>
