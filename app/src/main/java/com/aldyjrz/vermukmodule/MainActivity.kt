@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
         btn_go.setOnClickListener {
             val b = et_string.getText().toString()
-            if(b.isNotEmpty() && b.contains("/")) {
+            if(x!!.isNotEmpty() &&  b.isNotEmpty() && b.contains("/")) {
                 prefs.edit().putString("srcImage", b).apply()
                 stringToImage(b)
             }else{
