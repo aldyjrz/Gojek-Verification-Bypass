@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Base64;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
@@ -190,6 +192,16 @@ public class nyusahindriver
         return originalList.toArray(new String[0]);
     }
 
+    private void BSHToast(String paramString) {
+        if (currentActivity != null) {
+            Toast toast = Toast.makeText(currentActivity, paramString, Toast.LENGTH_SHORT);
+            TextView localTextView = toast.getView().findViewById(android.R.id.message);
+            if (localTextView != null) {
+                localTextView.setGravity(17);
+            }
+            toast.show();
+        }
+    }
     private void bypassFa(XC_LoadPackage.LoadPackageParam lpparam)
     {
         XposedHelpers.findAndHookMethod("android.app.ApplicationPackageManager", lpparam.classLoader, "getInstalledPackages", Integer.TYPE, new XC_MethodHook() {
@@ -574,6 +586,8 @@ public class nyusahindriver
             SharedPreferences pref = new RemotePreferences(systemContext, "com.aldyjrz.vermukmodule", "TOI");
             vermktoi = pref.getString("srcImage", "");
             XposedBridge.log("LADANG GANDUM DIPENUHI COKLAT - TOI");
+            XposedBridge.log("Love u All - BSH Team");
+
 
             final Class<?> x = XposedHelpers.findClass("id.idi.ekyc.dto.CheckUserBiometricRequestDTO", loadPackageParam.classLoader);
 
@@ -712,7 +726,7 @@ public class nyusahindriver
                 if ((currentActivity != null) &&  (currentActivity.getPackageName().equals("com.gojek.driver.bike"))) {
                     readPrefs();
                     currentActivity.getWindow().addFlags(FLAG_KEEP_SCREEN_ON);
-
+                    BSHToast("Welcome, BSH - 2020");
                 }
             }
         });
