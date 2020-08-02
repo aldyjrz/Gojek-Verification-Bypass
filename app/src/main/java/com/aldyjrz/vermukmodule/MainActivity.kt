@@ -95,8 +95,6 @@ class MainActivity : AppCompatActivity() {
 
         image.setImageBitmap(decodedByte)
 
-        image.borderColor = Color.GRAY
-        image.borderWidth = 10
 
     }
 }

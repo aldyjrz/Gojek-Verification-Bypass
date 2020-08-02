@@ -9,10 +9,9 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_launcher_foreground"
         android:id="@+id/image"/>
 
     <EditText
