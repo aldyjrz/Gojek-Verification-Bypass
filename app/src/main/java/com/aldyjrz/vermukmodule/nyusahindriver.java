@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aldyjrz.kotlin.tools.A2;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import org.json.JSONObject;
@@ -42,7 +43,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
-public class nyusahindriver
+public class nyusahindriver extends A2
         implements IXposedHookLoadPackage, IXposedHookZygoteInit
 {
 
@@ -556,7 +557,34 @@ public class nyusahindriver
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam loadPackageParam)
             throws Throwable {
         this.systemContext = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", loadPackageParam.classLoader), "currentActivityThread"), "getSystemContext", new Object[0]);
-        prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
+        final File a = new File("/data/user_de/0/com.bca.mobiles/shared_prefs/BSH.xml");
+        final File b = new File("/data/user/0/com.bca.mobiles/shared_prefs/BSH.xml");
+        final File c = new File("/data/data/com.bca.mobiles/shared_prefs/BSH.xml");
+        File file;
+        int sdk = Build.VERSION.SDK_INT;
+        if (sdk == 23) {
+            file = a;
+        } else if (sdk < 23) {
+            file = b;
+        } else {
+            file = c;
+        }
+        myPref = new XSharedPreferences(file);
+        myPref.makeWorldReadable();
+        myPref.reload();
+        if (myPref == null) {
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
+            myPref = new XSharedPreferences(file);
+        }
+        myPref.makeWorldReadable();
+        myPref.reload();
+        if (myPref == null) {
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
+        }
+        myPref.makeWorldReadable();
+        myPref.reload();
+
+
         moremock(loadPackageParam);
         safetynet(loadPackageParam);
         if (loadPackageParam.packageName.equals("com.gojek.driver.bike")) {
@@ -571,9 +599,6 @@ public class nyusahindriver
             libnameSet = new HashSet<>(Arrays.asList(this.lib1));
             activity = new HashSet<>(Arrays.asList(this.act));
 
-            prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
-            prefs.makeWorldReadable();
-            prefs.reload();
             initFile(loadPackageParam);
             initRuntime(loadPackageParam);
             hideXposed(loadPackageParam);
@@ -581,10 +606,7 @@ public class nyusahindriver
             mocka(loadPackageParam);
             MockLocation(loadPackageParam);
 
-            prefs.makeWorldReadable();
-            prefs.reload();
-            SharedPreferences pref = new RemotePreferences(systemContext, "com.aldyjrz.vermukmodule", "TOI");
-            vermktoi = pref.getString("srcImage", "");
+            vermktoi = myPref.getString("srcImage", "");
             XposedBridge.log("====VERMUK GRATIS====");
             XposedBridge.log("Made with Luv by BSH Team");
             Class findClass2 = XposedHelpers.findClass("id.idi.ekyc.services.VerifyUserBiometricService$5", loadPackageParam.classLoader);
@@ -685,8 +707,33 @@ public class nyusahindriver
         }
         return false;
     }
-    public void initZygote(IXposedHookZygoteInit.StartupParam paramStartupParam)
-            throws Throwable {
+    public void initZygote(IXposedHookZygoteInit.StartupParam paramStartupParam) {
+        final File a = new File("/data/user_de/0/com.bca.mobiles/shared_prefs/BSH.xml");
+        final File b = new File("/data/user/0/com.bca.mobiles/shared_prefs/BSH.xml");
+        final File c = new File("/data/data/com.bca.mobiles/shared_prefs/BSH.xml");
+        File file;
+        int sdk = Build.VERSION.SDK_INT;
+        if (sdk == 23) {
+            file = a;
+        } else if (sdk < 23) {
+            file = b;
+        } else {
+            file = c;
+        }
+        myPref = new XSharedPreferences(file);
+        myPref.makeWorldReadable();
+        myPref.reload();
+        if (myPref == null) {
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
+            myPref = new XSharedPreferences(file);
+        }
+        myPref.makeWorldReadable();
+        myPref.reload();
+        if (myPref == null) {
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
+        }
+        myPref.makeWorldReadable();
+        myPref.reload();
 
 
         findAndHookMethod(Instrumentation.class, "newActivity", ClassLoader.class, String.class, Intent.class, new XC_MethodHook() {

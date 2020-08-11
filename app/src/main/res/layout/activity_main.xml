@@ -58,5 +58,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:text="BSH TEAM 2020"/>
+        android:text="BSH TEAM 2020\nAda yang gratis kok repot bayar"/>
 </LinearLayout>
