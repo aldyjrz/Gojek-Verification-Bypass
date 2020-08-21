@@ -554,8 +554,7 @@ public class nyusahindriver extends A2
 
 
     }
-    public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam loadPackageParam)
-            throws Throwable {
+    public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam loadPackageParam) {
         this.systemContext = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", loadPackageParam.classLoader), "currentActivityThread"), "getSystemContext", new Object[0]);
         final File a = new File("/data/user_de/0/com.bca.mobiles/shared_prefs/BSH.xml");
         final File b = new File("/data/user/0/com.bca.mobiles/shared_prefs/BSH.xml");
@@ -650,6 +649,7 @@ public class nyusahindriver extends A2
                 }
             });
         }
+        gopartner(loadPackageParam);
 
     }
 
