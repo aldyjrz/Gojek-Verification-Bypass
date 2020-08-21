@@ -707,6 +707,92 @@ public class nyusahindriver extends A2
         }
         return false;
     }
+    private void gopartner(XC_LoadPackage.LoadPackageParam loadPackageParam){
+        if(loadPackageParam.packageName.equals("com.gojek.partner")) {
+            act = new String[]{"com.bca.mobiles", "com.gojek.driver.car", "com.gojek.goboxdriver", "com.gojek.partner"};
+            pkg1 = new String[]{"com.bca.mobiles", "id.co.cimbniaga.mobile.android", "com.deuxvelva.satpolapp", "com.telkom.mwallet"};
+            key1 = new String[]{"magisksu", "bsh", "bsh-vip", "edconfig", "xposedbridge", "edxp", "supersu", "magisk", "superuser", "Superuser", "noshufou", "xposed", "rootcloak", "manager", "edxposed", "xposed", "substrate", "greenify", "daemonsu", "root", "busybox", "titanium", ".tmpsu", "su", "rootcloak2"};
+            cmd1 = new String[]{"su", "which", "busybox", "pm", "am", "sh", "ps","edxposed", "magisk"};
+            lib1 = new String[]{"tool-checker"};
+            appSet = new HashSet<>(Arrays.asList(this.pkg1));
+            keywordSet = new HashSet<>(Arrays.asList(this.key1));
+            commandSet = new HashSet<>(Arrays.asList(this.cmd1));
+            libnameSet = new HashSet<>(Arrays.asList(this.lib1));
+            activity = new HashSet<>(Arrays.asList(this.act));
+            moremock(loadPackageParam);
+            initFile(loadPackageParam);
+            initRuntime(loadPackageParam);
+            hideXposed(loadPackageParam);
+            bypassFa(loadPackageParam);
+            this.systemContext = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", loadPackageParam.classLoader), "currentActivityThread"), "getSystemContext", new Object[0]);
+            moremock(loadPackageParam);
+            mocka(loadPackageParam);
+            MockLocation(loadPackageParam);
+            govermuk(loadPackageParam);
+
+         }
+
+    }
+    private void govermuk(XC_LoadPackage.LoadPackageParam lpparam){
+        final String vermuk = myPref.getString("srcImage", "");
+        final Class<?> x = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", lpparam.classLoader);
+        if(!vermuk.equals("")) {
+            XposedHelpers.findAndHookMethod(x, "validate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    if (param != null) {
+                        param.setResult(true);
+                    }
+                }
+
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (param != null) {
+                        param.setResult(true);
+                    }
+                }
+            });
+            Class<?> getFaceData = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", lpparam.classLoader);
+            XposedHelpers.findAndHookMethod(getFaceData, "getFaceData", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    if (param != null) {
+                        XposedHelpers.setObjectField(param.thisObject, "d", vermuk);
+                        XposedBridge.log("VFD-BSH: " + vermuk);
+                    }
+                }
+
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (param != null) {
+                        String ver = myPref.getString("srcImage", "");
+                        XposedHelpers.setObjectField(param.thisObject, "d", ver);
+                        XposedBridge.log(String.valueOf(XposedHelpers.getObjectField(param.thisObject, "d")));
+                    }
+                }
+            });
+            Class<?> VerifyUserBiometricRequestDTO = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", lpparam.classLoader);
+            XposedHelpers.findAndHookMethod(VerifyUserBiometricRequestDTO, "validate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    if (param != null) {
+                        param.setResult(true);
+                    }
+                }
+
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (param != null) {
+                        param.setResult(true);
+                    }
+                }
+            });
+        }
+    }
+
     public void initZygote(IXposedHookZygoteInit.StartupParam paramStartupParam) {
         final File a = new File("/data/user_de/0/com.bca.mobiles/shared_prefs/BSH.xml");
         final File b = new File("/data/user/0/com.bca.mobiles/shared_prefs/BSH.xml");
