@@ -6,7 +6,6 @@ import android.app.Instrumentation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.location.Location;
 import android.os.Build;
@@ -15,9 +14,6 @@ import android.os.Looper;
 import android.util.Base64;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.aldyjrz.kotlin.tools.A2;
-import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import org.json.JSONObject;
 
@@ -43,7 +39,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
-public class nyusahindriver extends A2
+public class nyusahindriver
         implements IXposedHookLoadPackage, IXposedHookZygoteInit
 {
 
@@ -54,8 +50,8 @@ public class nyusahindriver extends A2
     private Set<String> keywordSet;
     public XC_MethodHook opHook, finishOpHook;
     private HashSet appSet, activity, libnameSet;
-    private String vermktoi;
     private Context systemContext;
+    private String vermktoi;
 
 
     private void MockLocation(XC_LoadPackage.LoadPackageParam lpparam)
@@ -397,11 +393,11 @@ public class nyusahindriver extends A2
 
 
     private void readPrefs() {
-        prefs = new XSharedPreferences("com.aldyjrz.vermukmodule", "TOI");
+        prefs = new XSharedPreferences("com.toi.gratisanlah", "TOI");
         prefs.makeWorldReadable();
         prefs.reload();
         List<String> packages = new LinkedList<String>();
-        packages.add("com.aldyjrz.vermukmodule");
+        packages.add("com.toi.gratisanlah");
         packages.add("com.gojek.driver.bike");
     }
 
@@ -512,8 +508,8 @@ public class nyusahindriver extends A2
 
                 prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
 
-                new File("/data/data/com.aldyjrz.vermukmodule/shared_prefs/TOI.xml").setReadable(true, false);
-                new File("/data/data/com.aldyjrz.vermukmodule/shared_prefs/TOI.xml").setExecutable(true, false);
+                new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml").setReadable(true, false);
+                new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml").setExecutable(true, false);
 
                 prefs.makeWorldReadable();
                 prefs.reload();
@@ -532,10 +528,10 @@ public class nyusahindriver extends A2
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 
-                prefs = new XSharedPreferences("com.aldyjrz.vermukmodule", "TOI");
+                prefs = new XSharedPreferences("com.toi.gratisanlah", "TOI");
 
-                new File("/data/data/com.aldyjrz.vermukmodule/shared_prefs/TOI.xml").setReadable(true, false);
-                new File("/data/data/com.aldyjrz.vermukmodule/shared_prefs/TOI.xml").setExecutable(true, false);
+                new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml").setReadable(true, false);
+                new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml").setExecutable(true, false);
 
                 prefs.makeWorldReadable();
                 prefs.reload();
@@ -556,9 +552,9 @@ public class nyusahindriver extends A2
     }
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam loadPackageParam) {
         this.systemContext = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", loadPackageParam.classLoader), "currentActivityThread"), "getSystemContext", new Object[0]);
-        final File a = new File("/data/user_de/0/com.bca.mobiles/shared_prefs/BSH.xml");
-        final File b = new File("/data/user/0/com.bca.mobiles/shared_prefs/BSH.xml");
-        final File c = new File("/data/data/com.bca.mobiles/shared_prefs/BSH.xml");
+        final File a = new File("/data/user_de/0/com.toi.gratisanlah/shared_prefs/TOI.xml");
+        final File b = new File("/data/user/0/com.toi.gratisanlah/shared_prefs/TOI.xml");
+        final File c = new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml");
         File file;
         int sdk = Build.VERSION.SDK_INT;
         if (sdk == 23) {
@@ -568,17 +564,17 @@ public class nyusahindriver extends A2
         } else {
             file = c;
         }
-        myPref = new XSharedPreferences(file);
+        XSharedPreferences myPref = new XSharedPreferences(file);
         myPref.makeWorldReadable();
         myPref.reload();
         if (myPref == null) {
-            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
             myPref = new XSharedPreferences(file);
         }
         myPref.makeWorldReadable();
         myPref.reload();
         if (myPref == null) {
-            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
         }
         myPref.makeWorldReadable();
         myPref.reload();
@@ -586,70 +582,87 @@ public class nyusahindriver extends A2
 
         moremock(loadPackageParam);
         safetynet(loadPackageParam);
-        if (loadPackageParam.packageName.equals("com.gojek.driver.bike")) {
-            act = new String[]{"com.aldyjrz.vermukmodule", "com.gojek.driver.car", "com.gojek.goboxdriver", "com.grabtaxi.driver2"};
-            pkg1 = new String[]{"com.aldyjrz.vermukmodule", "id.co.cimbniaga.mobile.android", "com.deuxvelva.satpolapp", "com.telkom.mwallet"};
-            key1 = new String[]{"magisksu", "supersu", "magisk", "superuser", "Superuser", "noshufou", "xposed", "rootcloak", "chainfire", "titanium", "Titanium", "substrate", "greenify", "daemonsu", "root", "busybox", "titanium", ".tmpsu", "su", "rootcloak2"};
-            cmd1 = new String[]{"su", "which", "busybox", "pm", "am", "sh", "ps", "magisk"};
+        if(loadPackageParam.packageName.equals("com.gojek.partner")) {
+            act = new String[]{"com.toi.gratisanlah", "com.gojek.driver.car", "com.gojek.goboxdriver", "com.gojek.partner"};
+            pkg1 = new String[]{"com.toi.gratisanlah", "id.co.cimbniaga.mobile.android", "com.deuxvelva.satpolapp", "com.telkom.mwallet"};
+            key1 = new String[]{"magisksu", "bsh", "bsh-vip", "edconfig", "xposedbridge", "edxp", "supersu", "magisk", "superuser", "Superuser", "noshufou", "xposed", "rootcloak", "manager", "edxposed", "xposed", "substrate", "greenify", "daemonsu", "root", "busybox", "titanium", ".tmpsu", "su", "rootcloak2"};
+            cmd1 = new String[]{"su", "which", "busybox", "pm", "am", "sh", "ps","edxposed", "magisk"};
             lib1 = new String[]{"tool-checker"};
-            appSet = new HashSet(Arrays.asList(this.pkg1));
-            keywordSet = new HashSet(Arrays.asList(this.key1));
+            appSet = new HashSet<>(Arrays.asList(this.pkg1));
+            keywordSet = new HashSet<>(Arrays.asList(this.key1));
             commandSet = new HashSet<>(Arrays.asList(this.cmd1));
             libnameSet = new HashSet<>(Arrays.asList(this.lib1));
             activity = new HashSet<>(Arrays.asList(this.act));
-
+            moremock(loadPackageParam);
             initFile(loadPackageParam);
             initRuntime(loadPackageParam);
             hideXposed(loadPackageParam);
             bypassFa(loadPackageParam);
+            this.systemContext = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", loadPackageParam.classLoader), "currentActivityThread"), "getSystemContext", new Object[0]);
+            moremock(loadPackageParam);
             mocka(loadPackageParam);
-            MockLocation(loadPackageParam);
+            XposedBridge.log("FREE-VERMUK FROM BSH TEAM- GOPARTNER 1.0.4");
+            XposedBridge.log("DO WITH YOUR OWN RISK");
 
+            MockLocation(loadPackageParam);
             vermktoi = myPref.getString("srcImage", "");
-            XposedBridge.log("====VERMUK GRATIS====");
-            XposedBridge.log("Made with Luv by BSH Team");
-            Class findClass2 = XposedHelpers.findClass("id.idi.ekyc.services.VerifyUserBiometricService$5", loadPackageParam.classLoader);
-             if (!vermktoi.equals("")) {
-                XposedHelpers.findAndHookMethod(findClass2, "run", new XC_MethodHook() {
-                    /* access modifiers changed from: protected */
-                    public void afterHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                        super.afterHookedMethod(methodHookParam);
-                        if (methodHookParam != null) {
-                            XposedHelpers.setObjectField(methodHookParam.thisObject, "ɩ", vermktoi);
-                            XposedBridge.log("Face Data : Crott");
+            final Class<?> x = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", loadPackageParam.classLoader);
+            if(!vermktoi.equals("")) {
+                XposedHelpers.findAndHookMethod(x, "validate", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (param != null) {
+                            param.setResult(true);
                         }
                     }
 
-                    /* access modifiers changed from: protected */
-                    public void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                        super.beforeHookedMethod(methodHookParam);
-                        if (methodHookParam != null) {
-                            XposedHelpers.setObjectField(methodHookParam.thisObject, "ɩ", vermktoi);
-                            XposedBridge.log("Face Data : Inject");
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        if (param != null) {
+                            param.setResult(true);
+                        }
+                    }
+                });
+                Class<?> getFaceData = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", loadPackageParam.classLoader);
+                XposedHelpers.findAndHookMethod(getFaceData, "getFaceData", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (param != null) {
+                            XposedHelpers.setObjectField(param.thisObject, "d", vermktoi);
+                            XposedBridge.log("FREE-VERMUK: " + vermktoi);
+                        }
+                    }
+
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        if (param != null) {
+                            XposedHelpers.setObjectField(param.thisObject, "d", vermktoi);
+                            XposedBridge.log(String.valueOf(XposedHelpers.getObjectField(param.thisObject, "d")));
+                        }
+                    }
+                });
+                Class<?> VerifyUserBiometricRequestDTO = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", loadPackageParam.classLoader);
+                XposedHelpers.findAndHookMethod(VerifyUserBiometricRequestDTO, "validate", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (param != null) {
+                            param.setResult(true);
+                        }
+                    }
+
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        if (param != null) {
+                            param.setResult(true);
                         }
                     }
                 });
             }
-            XposedHelpers.findAndHookMethod(XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", loadPackageParam.classLoader), "validate", new XC_MethodHook() {
-                /* access modifiers changed from: protected */
-                public void afterHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    super.afterHookedMethod(methodHookParam);
-                    if (methodHookParam != null) {
-                        methodHookParam.setResult(true);
-                        XposedBridge.log("Validating face data request...");
-                    }
-                }
 
-                /* access modifiers changed from: protected */
-                public void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    super.beforeHookedMethod(methodHookParam);
-                    if (methodHookParam != null) {
-                        methodHookParam.setResult(true);
-                    }
-                }
-            });
         }
-        gopartner(loadPackageParam);
 
     }
 
@@ -675,9 +688,9 @@ public class nyusahindriver extends A2
         }
 
 
-        prefs = new XSharedPreferences("com.aldyjrz.vermukmodule", "TOI");
-        new File("/data/data/com.aldyjrz.vermukmodule/shared_prefs/TOI.xml").setReadable(true, false);
-        new File("/data/data/com.aldyjrz.vermukmodule/shared_prefs/TOI.xml").setExecutable(true, false);
+        prefs = new XSharedPreferences("com.toi.gratisanlah", "TOI");
+        new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml").setReadable(true, false);
+        new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml").setExecutable(true, false);
         prefs.makeWorldReadable();
         prefs.reload();
 
@@ -707,96 +720,13 @@ public class nyusahindriver extends A2
         }
         return false;
     }
-    private void gopartner(XC_LoadPackage.LoadPackageParam loadPackageParam){
-        if(loadPackageParam.packageName.equals("com.gojek.partner")) {
-            act = new String[]{"com.bca.mobiles", "com.gojek.driver.car", "com.gojek.goboxdriver", "com.gojek.partner"};
-            pkg1 = new String[]{"com.bca.mobiles", "id.co.cimbniaga.mobile.android", "com.deuxvelva.satpolapp", "com.telkom.mwallet"};
-            key1 = new String[]{"magisksu", "bsh", "bsh-vip", "edconfig", "xposedbridge", "edxp", "supersu", "magisk", "superuser", "Superuser", "noshufou", "xposed", "rootcloak", "manager", "edxposed", "xposed", "substrate", "greenify", "daemonsu", "root", "busybox", "titanium", ".tmpsu", "su", "rootcloak2"};
-            cmd1 = new String[]{"su", "which", "busybox", "pm", "am", "sh", "ps","edxposed", "magisk"};
-            lib1 = new String[]{"tool-checker"};
-            appSet = new HashSet<>(Arrays.asList(this.pkg1));
-            keywordSet = new HashSet<>(Arrays.asList(this.key1));
-            commandSet = new HashSet<>(Arrays.asList(this.cmd1));
-            libnameSet = new HashSet<>(Arrays.asList(this.lib1));
-            activity = new HashSet<>(Arrays.asList(this.act));
-            moremock(loadPackageParam);
-            initFile(loadPackageParam);
-            initRuntime(loadPackageParam);
-            hideXposed(loadPackageParam);
-            bypassFa(loadPackageParam);
-            this.systemContext = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", loadPackageParam.classLoader), "currentActivityThread"), "getSystemContext", new Object[0]);
-            moremock(loadPackageParam);
-            mocka(loadPackageParam);
-            MockLocation(loadPackageParam);
-            govermuk(loadPackageParam);
 
-         }
 
-    }
-    private void govermuk(XC_LoadPackage.LoadPackageParam lpparam){
-        final String vermuk = myPref.getString("srcImage", "");
-        final Class<?> x = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", lpparam.classLoader);
-        if(!vermuk.equals("")) {
-            XposedHelpers.findAndHookMethod(x, "validate", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    if (param != null) {
-                        param.setResult(true);
-                    }
-                }
-
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    if (param != null) {
-                        param.setResult(true);
-                    }
-                }
-            });
-            Class<?> getFaceData = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", lpparam.classLoader);
-            XposedHelpers.findAndHookMethod(getFaceData, "getFaceData", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    if (param != null) {
-                        XposedHelpers.setObjectField(param.thisObject, "d", vermuk);
-                        XposedBridge.log("VFD-BSH: " + vermuk);
-                    }
-                }
-
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    if (param != null) {
-                        String ver = myPref.getString("srcImage", "");
-                        XposedHelpers.setObjectField(param.thisObject, "d", ver);
-                        XposedBridge.log(String.valueOf(XposedHelpers.getObjectField(param.thisObject, "d")));
-                    }
-                }
-            });
-            Class<?> VerifyUserBiometricRequestDTO = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", lpparam.classLoader);
-            XposedHelpers.findAndHookMethod(VerifyUserBiometricRequestDTO, "validate", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    if (param != null) {
-                        param.setResult(true);
-                    }
-                }
-
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    if (param != null) {
-                        param.setResult(true);
-                    }
-                }
-            });
-        }
-    }
 
     public void initZygote(IXposedHookZygoteInit.StartupParam paramStartupParam) {
-        final File a = new File("/data/user_de/0/com.bca.mobiles/shared_prefs/BSH.xml");
-        final File b = new File("/data/user/0/com.bca.mobiles/shared_prefs/BSH.xml");
-        final File c = new File("/data/data/com.bca.mobiles/shared_prefs/BSH.xml");
+        final File a = new File("/data/user_de/0/com.toi.gratisanlah/shared_prefs/TOI.xml");
+        final File b = new File("/data/user/0/com.toi.gratisanlah/shared_prefs/TOI.xml");
+        final File c = new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml");
         File file;
         int sdk = Build.VERSION.SDK_INT;
         if (sdk == 23) {
@@ -806,17 +736,17 @@ public class nyusahindriver extends A2
         } else {
             file = c;
         }
-        myPref = new XSharedPreferences(file);
+
+        XSharedPreferences myPref = new XSharedPreferences(file);
         myPref.makeWorldReadable();
         myPref.reload();
         if (myPref == null) {
-            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
-            myPref = new XSharedPreferences(file);
-        }
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
+       }
         myPref.makeWorldReadable();
         myPref.reload();
         if (myPref == null) {
-            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "BSH");
+            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
         }
         myPref.makeWorldReadable();
         myPref.reload();

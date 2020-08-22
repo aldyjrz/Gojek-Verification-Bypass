@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.aldyjrz.vermukmodule"
+        applicationId "com.toi.gratisanlah"
         minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
