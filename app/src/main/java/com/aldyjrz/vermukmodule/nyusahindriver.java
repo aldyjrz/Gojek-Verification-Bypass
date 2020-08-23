@@ -6,6 +6,7 @@ import android.app.Instrumentation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.location.Location;
 import android.os.Build;
@@ -14,6 +15,8 @@ import android.os.Looper;
 import android.util.Base64;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import org.json.JSONObject;
 
@@ -552,32 +555,6 @@ public class nyusahindriver
     }
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam loadPackageParam) {
         this.systemContext = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", loadPackageParam.classLoader), "currentActivityThread"), "getSystemContext", new Object[0]);
-        final File a = new File("/data/user_de/0/com.toi.gratisanlah/shared_prefs/TOI.xml");
-        final File b = new File("/data/user/0/com.toi.gratisanlah/shared_prefs/TOI.xml");
-        final File c = new File("/data/data/com.toi.gratisanlah/shared_prefs/TOI.xml");
-        File file;
-        int sdk = Build.VERSION.SDK_INT;
-        if (sdk == 23) {
-            file = a;
-        } else if (sdk < 23) {
-            file = b;
-        } else {
-            file = c;
-        }
-        XSharedPreferences myPref = new XSharedPreferences(file);
-        myPref.makeWorldReadable();
-        myPref.reload();
-        if (myPref == null) {
-            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
-            myPref = new XSharedPreferences(file);
-        }
-        myPref.makeWorldReadable();
-        myPref.reload();
-        if (myPref == null) {
-            myPref = new XSharedPreferences(BuildConfig.APPLICATION_ID, "TOI");
-        }
-        myPref.makeWorldReadable();
-        myPref.reload();
 
 
         moremock(loadPackageParam);
@@ -605,6 +582,8 @@ public class nyusahindriver
             XposedBridge.log("DO WITH YOUR OWN RISK");
 
             MockLocation(loadPackageParam);
+            SharedPreferences myPref = new RemotePreferences(systemContext, "com.toi.gratisanlah", "TOI");
+
             vermktoi = myPref.getString("srcImage", "");
             final Class<?> x = XposedHelpers.findClass("id.idi.ekyc.dto.VerifyUserBiometricRequestDTO", loadPackageParam.classLoader);
             if(!vermktoi.equals("")) {
